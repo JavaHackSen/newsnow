@@ -69,7 +69,7 @@ try {
     items: newData,  
   }  
 } catch (e) {  
-  if (cache!) {  
+  if (cache) {  
     return {  
       status: "cache",  
       id,  
