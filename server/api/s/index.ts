@@ -55,31 +55,31 @@ export default defineEventHandler(async (event): Promise<SourceResponse> => {
       }
     }
 
-    try {
-      const newData = (await getters[id]()).slice(0, 30)
-      if (cacheTable && newData.length) {
-        if (event.context.waitUntil) event.context.waitUntil(cacheTable.set(id, newData))
-        else await cacheTable.set(id, newData)
-      }
-      logger.success(`fetch ${id} latest`)
-      return {
-        status: "success",
-        id,
-        updatedTime: now,
-        items: newData,
-      }
-    } catch (e) {
-      if (cache!) {
-        return {
-          status: "cache",
-          id,
-          updatedTime: cache.updated,
-          items: cache.items,
-        }
-      } else {
-        throw e
-      }
-    }
+try {  
+  const newData = (await getters[id]()).slice(0, 30)  
+  if (cacheTable && newData.length) {  
+    if (event.context.waitUntil) event.context.waitUntil(cacheTable.set(id, newData))  
+    else await cacheTable.set(id, newData)  
+  }  
+  logger.success(`fetch ${id} latest`)  
+  return {  
+    status: "success",  
+    id,  
+    updatedTime: now,  
+    items: newData,  
+  }  
+} catch (e) {  
+  if (cache!) {  
+    return {  
+      status: "cache",  
+      id,  
+      updatedTime: cache.updated,  
+      items: cache.items,  
+    }  
+  } else {  
+    throw e  
+  }  
+}
   } catch (e: any) {
     logger.error(e)
     throw createError({
