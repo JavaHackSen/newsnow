@@ -2,8 +2,9 @@ name: Auto Refresh
 
 on:
   schedule:
-    - cron: '*/20 0-17,22,23 * * *'
+    - cron: '0 0-23 * * *'
   workflow_dispatch:
+
 
 jobs:
   release:
